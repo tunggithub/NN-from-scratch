@@ -10,7 +10,7 @@ class Dense():
     def forward_propagation(self, input_data):
         self.input = input_data
         self.output = np.dot(self.input, self.weights) + self.bias
-        self.output
+        return self.output
 
     # computes dE/dW, dE/dB for a given output_error=dE/dY. Returns input_error=dE/dX.
     def backward_propagation(self, output_error, lr):
@@ -25,14 +25,24 @@ class Dense():
 
 
 class Sigmoid():
-    def __init__(self, input_data):
+    def forward_propagation(self, input_data):
         self.input_data = input_data
-
-    def forward_propagation(self):
         output = 1 / (1 + np.exp(-self.input_data))
         return output
-    
+
     def backward_propagation(self, output_error, lr):
-        derivatives = self.forward_propagation(self.input_data) * (1-self.forward_propagation(self.input_data))
+        derivatives = self.forward_propagation(
+            self.input_data) * (1-self.forward_propagation(self.input_data))
+        error = output_error * derivatives
+        return error
+
+class Tanh():
+    def forward_propagation(self, input_data):
+        self.input_data = input_data
+        output = np.tanh(self.input_data)
+        return output
+
+    def backward_propagation(self, output_error, lr):
+        derivatives = 1-np.tanh(self.input_data)**2
         error = output_error * derivatives
         return error
