@@ -32,7 +32,7 @@ class Sigmoid():
         output = 1 / (1 + np.exp(-self.input_data))
         return output
     
-    def backward_propagation(self, output_error):
+    def backward_propagation(self, output_error, lr):
         derivatives = self.forward_propagation(self.input_data) * (1-self.forward_propagation(self.input_data))
         error = output_error * derivatives
         return error
